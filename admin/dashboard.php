@@ -2,6 +2,8 @@
 // On démarre (ou on récupère) la session courante
 session_start();
 
+error_log("admin ".print_r($_SESSION, 1));
+
 // On inclue le fichier de configuration et de connexion à la base de données
 include('includes/config.php');
 
@@ -9,20 +11,54 @@ if (strlen($_SESSION['alogin']) == 0) {
   // Si l'utilisateur est déconnecté
   // L'utilisateur est renvoyé vers la page de login : index.php
   header('location:../index.php');
-} else {
-  // sinon on récupère les informations à afficher depuis la base de données
+} else { 
+
+  // sinon on récupère les informations à afficher depuis la base de données  
+
   // On récupère le nombre de livres depuis la table tblbooks
+  $sql = "SELECT COUNT(*) FROM tblbooks";
+  $query = $dbh->prepare($sql);
+  $query->execute();
+  error_log("query line 16");
+  $num_books = $query->fetchColumn();
 
   // On récupère le nombre de livres en prêt depuis la table tblissuedbookdetails
+  $sql = "SELECT COUNT(*) FROM tblissuedbookdetails WHERE ReturnStatus=0";
+  $query = $dbh->prepare($sql);
+  $query->execute();
+  error_log("query tblissuedbookdetails status 0");
+  $num_books_on_loan = $query->fetchColumn();
 
   // On récupère le nombre de livres retournés  depuis la table tblissuedbookdetails
   // Ce sont les livres dont le statut est à 1
+  $sql = "SELECT COUNT(*) FROM tblissuedbookdetails WHERE ReturnStatus=1";
+  $query = $dbh->prepare($sql);
+  $query->execute();
+  error_log("query tblissuedbookdetails status 1");
+
+  $num_books_returned = $query->fetchColumn();
 
   // On récupère le nombre de lecteurs dans la table tblreaders
+  $sql = "SELECT COUNT(*) FROM tblreaders";
+  $query = $dbh->prepare($sql);
+  $query->execute();
+  error_log("query line 38");
+  $num_readers = $query->fetchColumn();
 
   // On récupère le nombre d'auteurs dans la table tblauthors
+  $sql = "SELECT COUNT(*) FROM tblauthors";
+  $query = $dbh->prepare($sql);
+  $query->execute();
+  error_log("query line 45");
+  $num_authors = $query->fetchColumn();
 
   // On récupère le nombre de catégories dans la table tblcategory
+  $sql = "SELECT COUNT(*) FROM tblcategory";
+  $query = $dbh->prepare($sql);
+  $query->execute();
+  error_log("query line 53");
+  $num_categories = $query->fetchColumn();
+
 ?>
   <!DOCTYPE html>
   <html lang="FR">
@@ -60,7 +96,7 @@ if (strlen($_SESSION['alogin']) == 0) {
           </div>
         </div>
         <div class="col-sm-3 col-md-3">
-          <!-- On affiche la carte Livres en pr�t -->
+          <!-- On affiche la carte Livres en pr t -->
           <div class="alert alert-succes text-center">
             <span class="fa fa-book fa-5x">
               <h3><?php echo $result1[0]; ?></h3>
@@ -70,7 +106,7 @@ if (strlen($_SESSION['alogin']) == 0) {
           </div>
         </div>
         <div class="col-sm-3 col-md-3">
-          <!-- On affiche la carte Livres retourn�s -->
+          <!-- On affiche la carte Livres retourn s -->
           <div class="alert alert-succes text-center">
             <span class="fa fa-bars fa-5x">
               <h3><?php echo $result2[0]; ?></h3>
@@ -100,7 +136,7 @@ if (strlen($_SESSION['alogin']) == 0) {
           </div>
         </div>
         <div class="col-sm-3 col-md-3">
-          <!-- On affiche la carte Cat�gories -->
+          <!-- On affiche la carte Cat gories -->
           <div class="alert alert-succes text-center">
             <span class="fa fa-file-archive fa-5x">
               <h3><?php echo $result5[0]; ?></h3>

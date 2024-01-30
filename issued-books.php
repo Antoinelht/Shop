@@ -14,11 +14,18 @@ if (strlen($_SESSION['rdid']) == 0) {
 
     $userIssuedBooksId = $_SESSION['rdid'];
 
-    $sql = "SELECT tblbooks.BookName, tblbooks.ISBNNumber, tblissuedbookdetails.IssuesDate, tblissuedbookdetails.ReturnDate FROM tblbooks JOIN tblissuedbookdetails ON tblbooks.ISBNNumber = tblissuedbookdetails.BookId  WHERE ReaderId =:rdid";
+    $sql = "SELECT tblbooks.BookName, tblbooks.ISBNNumber, tblissuedbookdetails.IssuesDate, tblissuedbookdetails.ReturnDate FROM 
+    tblbooks JOIN tblissuedbookdetails ON tblbooks.ISBNNumber = tblissuedbookdetails.BookId  WHERE ReaderId =:rdid";
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':rdid', $userIssuedBooksId, PDO::PARAM_STR);
     $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    error_log(print_r($results, 1));
+    //error_log(print_r($stmt, 1));
+    error_log(print_r($sql, 1));
+    error_log(print_r($userIssuedBooksId, 1));
+    error_log(print_r($stmt->rowCount(), 1));
+
 }
 ?>
 
@@ -43,6 +50,7 @@ if (strlen($_SESSION['rdid']) == 0) {
 </head>
 
 <body>
+    
     <!--On insere ici le menu de navigation T-->
     <?php include('includes/header.php'); ?>
     <!-- On affiche le titre de la page : LIVRES SORTIS -->
@@ -78,6 +86,7 @@ if (strlen($_SESSION['rdid']) == 0) {
                         $statusLabel = $status;
                         $style = "color: green;"; 
                     }
+                    error_log(print_r($status, 1));
                 ?>
                     <tr>
                         <th scope="row" class="table-secondary table-bordered border-dark"><?php echo $i ?></th>

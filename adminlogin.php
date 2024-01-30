@@ -14,6 +14,7 @@ include('includes/config.php');
 if (isset($_SESSION['alogin']) && $_SESSION['alogin'] != '') {
     $_SESSION['alogin'] = '';
 }
+//error_log(''.print_r($_SESSION,1));
 
 // A faire :
 if (isset($_POST['alogin'])) {
@@ -26,42 +27,51 @@ if (isset($_POST['alogin'])) {
         error_log('Session vercode: ' . $_SESSION["vercode"]. ' ' . gettype($_SESSION["vercode"]));
         if ((int)$_POST["vercode"] !== (int)$_SESSION["vercode"]) {
         echo "<script>alert('Code de vérification incorrect')</script>";
-// Le code est correct, on peut continuer
-} else {
-
-// On recupere le nom de l'utilisateur saisi dans le formulaire
-$adminUserName = isset($_POST['UserName']) ? $_POST['UserName'] : '';
-// On recupere le mot de passe saisi par l'utilisateur et on le crypte (fonction md5)
-$motDePasse = isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : ''; 
-
-// On construit la requete qui permet de retrouver l'utilisateur a partir de son nom et de son mot de passe
-
-$sqlAdmin = "SELECT UserName, Password FROM `admin` WHERE UserName = :UserName ";
-error_log($sqlAdmin);
-$query = $dbh->prepare($sqlAdmin);
-$query->bindParam(':UserName', $adminUserName, PDO::PARAM_STR); 
-
-
-$query->execute();
-error_log('Query executed');
-$results = $query->fetch();
-error_log(print_r($results, 1));
-
-
-// depuis la table admin
-// Si le resultat de recherche n'est pas vide 
-if ($query->rowCount() > 0) {
-    if (password_verify($motDePasse, $results['Password']))
-
-
-    // On stocke le nom de l'utilisateur  $_POST['username'] en session $_SESSION
-    $_SESSION['UserName'] = $results['UserName'];
-    // On redirige l'utilisateur vers le tableau de bord administration (n'existe pas encore)
-    
-    // sinon le login est refuse. On le signal par une popup
+    // Le code est correct, on peut continuer
     } else {
-        echo "<script>alert('Login refusé !')</script>"; 
-    } 
+
+        // On recupere le nom de l'utilisateur saisi dans le formulaire
+        $adminUserName = isset($_POST['UserName']) ? $_POST['UserName'] : '';
+        // On recupere le mot de passe saisi par l'utilisateur et on le crypte (fonction md5)
+        //$motDePasse = isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : '';
+
+        // On construit la requete qui permet de retrouver l'utilisateur a partir de son nom et de son mot de passe
+
+        $sqlAdmin = "SELECT UserName, Password FROM `admin` WHERE UserName = :UserName ";
+        error_log($sqlAdmin);
+        $query = $dbh->prepare($sqlAdmin);
+        $query->bindParam(':UserName', $adminUserName, PDO::PARAM_STR); 
+
+
+        $query->execute();
+        error_log('Query executed');
+        $results = $query->fetch();
+        error_log(print_r($results, 1));
+
+
+        // depuis la table admin
+        // Si le resultat de recherche n'est pas vide 
+        if ($query->rowCount() > 0) {
+
+            if (password_verify($_POST['password'], $results['Password'])){
+
+
+
+                // On stocke le nom de l'utilisateur  $_POST['username'] en session $_SESSION
+                $_SESSION['UserName'] = $results['UserName'];
+                $_SESSION['alogin'] = $results['UserName']; 
+                
+            error_log("admin ok");
+                // On redirige l'utilisateur vers le tableau de bord administration (n'existe pas encore)
+                header("location:admin/dashboard.php");
+                exit();
+            } // if password verify 
+   
+
+        // sinon le login est refuse. On le signal par une popup
+        } else {
+            echo "<script>alert('Login refusé !')</script>"; 
+        } 
 
         }
     }
