@@ -87,7 +87,7 @@ $categories = $stmt->fetchAll();
           <tbody>
         <?php foreach ($categories as $category): ?>
             <tr>
-                <th scope="row" class="table-secondary table-bordered bordered-dark"></th>
+                
                 <td class="table-secondary table-bordered bordered-dark"><?= $category['id'] ?></td>
                 <td class="table-secondary table-bordered bordered-dark"><?= $category['CategoryName'] ?></td>
                 <td class="table-secondary table-bordered bordered-dark <?= $category['Status'] == 1 ? 'btn btn-success' : 'btn btn-danger' ?>">
