@@ -44,9 +44,7 @@ if (strlen($_SESSION['rdid']) == 0) {
     <!-- CUSTOM STYLE  -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
-    <script type="text/javascript">
-
-    </script>
+    
 </head>
 
 <body>

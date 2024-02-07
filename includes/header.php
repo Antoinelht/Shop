@@ -1,4 +1,4 @@
-
+<?php error_log("header ".print_r($_SESSION, 1));?>
    
    <?php if(isset($_SESSION['login'])) {?> 
 

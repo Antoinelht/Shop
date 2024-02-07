@@ -66,7 +66,7 @@ if (strlen($_SESSION['alogin']) == 0) {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Gestion de bibliothèque en ligne | Tab bord administration</title>
+    <title>Gestion de bibliothèque en ligne | Tablbord administration</title>
     <!-- BOOTSTRAP CORE STYLE  -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <!-- FONT AWESOME STYLE  -->
@@ -90,7 +90,7 @@ if (strlen($_SESSION['alogin']) == 0) {
           <!-- On affiche la carte Nombre de livres -->
           <div class="alert alert-succes text-center">
             <span class="fa fa-book fa-5x">
-              <h3><?php echo $result[0]; ?></h3>
+              <h3><?php echo $num_books; ?></h3>
             </span>
             Nombre de livre
           </div>
@@ -99,7 +99,7 @@ if (strlen($_SESSION['alogin']) == 0) {
           <!-- On affiche la carte Livres en pr t -->
           <div class="alert alert-succes text-center">
             <span class="fa fa-book fa-5x">
-              <h3><?php echo $result1[0]; ?></h3>
+              <h3><?php echo $num_books_on_loan; ?></h3>
 
             </span>
             Livres en pret
@@ -109,7 +109,7 @@ if (strlen($_SESSION['alogin']) == 0) {
           <!-- On affiche la carte Livres retourn s -->
           <div class="alert alert-succes text-center">
             <span class="fa fa-bars fa-5x">
-              <h3><?php echo $result2[0]; ?></h3>
+              <h3><?php echo $num_books_returned; ?></h3>
 
             </span>
             Livres retournés
@@ -119,7 +119,7 @@ if (strlen($_SESSION['alogin']) == 0) {
           <!-- On affiche la carte Lecteurs -->
           <div class="alert alert-succes text-center">
             <span class="fa fa-recycle fa-5x">
-              <h3><?php echo $result3[0]; ?></h3>
+              <h3><?php echo $num_readers; ?></h3>
 
             </span>
             Lecteurs
@@ -129,7 +129,7 @@ if (strlen($_SESSION['alogin']) == 0) {
           <!-- On affiche la carte Auteurs -->
           <div class="alert alert-succes text-center">
             <span class="fa fa-users fa-5x">
-              <h3><?php echo $result4[0]; ?></h3>
+              <h3><?php echo $num_authors; ?></h3>
 
             </span>
             Auteurs
@@ -138,9 +138,8 @@ if (strlen($_SESSION['alogin']) == 0) {
         <div class="col-sm-3 col-md-3">
           <!-- On affiche la carte Cat gories -->
           <div class="alert alert-succes text-center">
-            <span class="fa fa-file-archive fa-5x">
-              <h3><?php echo $result5[0]; ?></h3>
-
+            <span class="fa fa-file-archive-o fa-5x">
+              <h3><?php echo $num_categories; ?></h3>
             </span>
             Catégories
           </div>

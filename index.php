@@ -2,6 +2,8 @@
 // On demarre ou on recupere la session courante
 session_start();
 
+error_log("lecteur " . print_r($_SESSION, 1));
+
 // On inclue le fichier de configuration et de connexion a la base de donnees
 include('includes/config.php');
 
@@ -72,6 +74,7 @@ if (TRUE === isset($_POST['login'])) {
 <body>
 	<!--On inclue ici le menu de navigation includes/header.php-->
 	<?php include('includes/header.php'); ?>
+	
 
 	<!-- On insere le titre de la page (LOGIN UTILISATEUR) -->
 	<div class="container">
